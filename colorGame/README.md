@@ -6,5 +6,5 @@ Para probar la aplicación:
 - ubicarte en terminal en colorGame/
 - correr el siguiente comando:
 
-`$ java -jar bank.jar`
+`$ java -jar colorGame.jar`
 
