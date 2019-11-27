@@ -1,4 +1,4 @@
-##Color game!
+# Color game!
 
 Para probar la aplicación:
 
