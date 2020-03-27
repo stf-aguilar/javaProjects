@@ -5,6 +5,12 @@
  */
 package ventanas;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -16,11 +22,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private boolean casilla[][] = new boolean[3][3];
     private int matriz[][] = new int[3][3];
     private String turno = "usuario1";
+    private String usuario1, usuario2;
+    private int vecesGano1 = 0, vecesGano2 = 0, vecesEmpate = 0;
 
     /**
      * Creates new form VentanaPrincipal
      */
-    public VentanaPrincipal() {
+    public VentanaPrincipal(String usuario1, String usuario2) {
+        this.usuario1 = usuario1;
+        this.usuario2 = usuario2;
+        
         initComponents();
         setSize(600,600);
         setLocationRelativeTo(null);
@@ -49,7 +60,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
     
     private void dibujarO(JButton boton){
-        boton.setIcon(new ImageIcon(getClass().getResource("/imagenes/llanura.png")));
+        boton.setIcon(new ImageIcon(getClass().getResource("/imagenes/circulo.png")));
     }
 
     /**
@@ -152,11 +163,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         comenzarDeNuevo.setFont(new java.awt.Font("Chandas", 0, 12)); // NOI18N
         comenzarDeNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icon.png"))); // NOI18N
         comenzarDeNuevo.setText("Comenzar de nuevo");
+        comenzarDeNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comenzarDeNuevoActionPerformed(evt);
+            }
+        });
         menuJuego.add(comenzarDeNuevo);
 
         mostrarResultados.setFont(new java.awt.Font("Chandas", 0, 10)); // NOI18N
         mostrarResultados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/tabla.png"))); // NOI18N
         mostrarResultados.setText("Mostrar resultados");
+        mostrarResultados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mostrarResultadosActionPerformed(evt);
+            }
+        });
         menuJuego.add(mostrarResultados);
         menuJuego.add(jSeparator1);
 
@@ -174,6 +195,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         menuAyuda.setText("Ayuda");
         menuAyuda.setFont(new java.awt.Font("Chandas", 0, 14)); // NOI18N
+        menuAyuda.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuAyudaMouseClicked(evt);
+            }
+        });
         jMenuBar1.add(menuAyuda);
 
         setJMenuBar(jMenuBar1);
@@ -204,7 +230,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 turno = "usuario2";
             }else{
             dibujarO(btnArribaIzq);
-            matriz[0][0] = 1;
+            matriz[0][0] = 2;
             turno = "usuario1";
             }
             
@@ -350,15 +376,114 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             comprobarGanador();
         }
     }//GEN-LAST:event_btnAbajoDerActionPerformed
-    private void comprobarGanador(){
-        for(int i=0; i<3; i++){
-            for(int j=0;j<3;j++){
-                System.out.print(matriz[i][j]+" ");
-            }
-            System.out.println("");
+
+    private void mostrarResultadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarResultadosActionPerformed
+       VentanaMostrarRespuestas ventanaMR = new VentanaMostrarRespuestas(this, true,usuario1,usuario2,vecesGano1,vecesGano2,vecesEmpate);
+       ventanaMR.setVisible(true);
+    }//GEN-LAST:event_mostrarResultadosActionPerformed
+
+    private void comenzarDeNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comenzarDeNuevoActionPerformed
+        vecesGano1 = 0;vecesGano2 = 0; vecesEmpate = 0;
+        reiniciarJuego();
+    }//GEN-LAST:event_comenzarDeNuevoActionPerformed
+
+    private void menuAyudaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAyudaMouseClicked
+        try {
+            Desktop.getDesktop().browse(new URI("https://www.guiainfantil.com/articulos/ocio/juegos/juego-de-tres-en-raya-como-jugar-con-los-ninos-con-papel-y-lapiz/"));
+        } catch (URISyntaxException | IOException ex) {
+            //Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("");
+        //Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        
+    }//GEN-LAST:event_menuAyudaMouseClicked
+    private void comprobarGanador(){
+        boolean ganador1 = false;
+        boolean ganador2 = false;
+        int casillasEmpate = 0;
+        
+        ganador1 = comprobar(1);
+        ganador2 = comprobar(2);
+        
+        if(ganador1 == true){
+           vecesGano1++;
+           VentanaGanador ventanaG = new VentanaGanador(this, true, usuario1);
+           ventanaG.setVisible(true);
+           reiniciarJuego();
+        }else if(ganador2 == true){
+            vecesGano2++;
+            VentanaGanador ventanaG = new VentanaGanador(this, true, usuario2);
+            ventanaG.setVisible(true);
+            reiniciarJuego();
+        }else{
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if(matriz[i][j] != 0){
+                        casillasEmpate++;
+                    }
+                }
+            }
+            
+            if(casillasEmpate == 9){
+                vecesEmpate++;
+                VentanaEmpate ventanaE = new VentanaEmpate(this, true);
+                ventanaE.setVisible(true);
+                reiniciarJuego();
+            }else{
+                casillasEmpate = 0;
+            }
+        }
+        
     }
+    
+    private boolean comprobar(int num){
+        boolean ganador = false;
+        
+        if(matriz[0][0] == num && matriz[0][1] == num && matriz[0][2] == num ){
+            ganador = true;
+        }else if(matriz[1][0] == num && matriz[1][1] == num && matriz[1][2] == num ){
+            ganador = true;
+        }else if(matriz[2][0] == num && matriz[2][1] == num && matriz[2][2] == num ){
+            ganador = true;
+        }else if(matriz[0][0] == num && matriz[1][1] == num && matriz[2][2] == num ){
+            ganador = true;
+        }else if(matriz[0][2] == num && matriz[1][1] == num && matriz[2][0] == num ){
+            ganador = true;
+        }else if(matriz[0][0] == num && matriz[1][0] == num && matriz[2][0] == num ){
+            ganador = true;
+        }else if(matriz[0][1] == num && matriz[1][1] == num && matriz[2][1] == num ){
+            ganador = true;
+        }else if(matriz[0][2] == num && matriz[1][2] == num && matriz[2][2] == num ){
+            ganador = true;
+        }
+        
+        return ganador;
+    }
+    
+    private void reiniciarJuego(){
+        llenarCasillas();
+        llenarMatriz();
+        
+        btnAbajo.setIcon(null);
+        btnAbajoDer.setIcon(null);
+        btnAbajoIzq.setIcon(null);
+        btnArribaDer.setIcon(null);
+        btnArriba.setIcon(null);
+        btnArribaIzq.setIcon(null);
+        btnCentro.setIcon(null);
+        btnDerecha.setIcon(null);
+        btnIzquierda.setIcon(null);
+        
+        quienJuegaPrimero();
+    }
+    
+    private void quienJuegaPrimero(){
+        VentanaQuienJuega vqj = new VentanaQuienJuega(this, true, usuario1, usuario2);
+        vqj.setVisible(true);
+        turno = vqj.getTurno();
+    }
+    
+    
+ 
     /**
      * @param args the command line arguments
      */
@@ -389,7 +514,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VentanaPrincipal().setVisible(true);
+                new VentanaPrincipal(null, null).setVisible(true);
             }
         });
     }
