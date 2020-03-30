@@ -8,14 +8,11 @@ package ventanas;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author shinee
- */
 public class VentanaContactos extends javax.swing.JDialog {
     DefaultTableModel modeloTabla = new DefaultTableModel();
     
@@ -40,10 +37,15 @@ public class VentanaContactos extends javax.swing.JDialog {
         try {
             FileReader lector = new FileReader("agendaContactos.txt");
             BufferedReader lectura = new BufferedReader(lector);
-            cadena.readLine();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(VentanaContactos.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            cadena = lectura.readLine();
+            while(cadena != null){
+                fila = cadena.split("%");
+                modeloTabla.addRow(fila);
+                cadena = lectura.readLine();
+            }
+            } catch (IOException ex) {
+                Logger.getLogger(VentanaContactos.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
 
     
