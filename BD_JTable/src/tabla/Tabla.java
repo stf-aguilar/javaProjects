@@ -312,16 +312,16 @@ public class Tabla extends javax.swing.JFrame {
            Conexion con = new Conexion();
            Connection conexion = con.getConnection();
            
-           ps = conexion.prepareStatement("insert into producto (codigo, nombre, precio, cantidad) values (?,?,?,?) where codigo=?");
+           ps = conexion.prepareStatement("insert into producto (codigo, nombre, precio, cantidad) values (?,?,?,?)");
            ps.setString(1, campoCodigo.getText());
            ps.setString(2, campoNombre.getText());
            ps.setDouble(3, Double.parseDouble(campoPrecio.getText()));
            ps.setInt(4, Integer.parseInt(campoCantidad.getText()));
-           ps.setString(5, campoCodigo.getText());
+       
            
            ps.executeUpdate();
            
-           JOptionPane.showMessageDialog(null, "Registro modificado correctamente");
+           JOptionPane.showMessageDialog(null, "Registro insertado correctamente");
         }catch(Exception ex){
             System.err.println("Error "+ex);
         }
