@@ -33,7 +33,7 @@ public class Estado {
     }
     
     
-    public Vector<Estado> mostrarEstados(int idPais){
+    public Vector<Estado> mostrarEstados(Integer idPais){
         PreparedStatement ps = null;
         ResultSet rs = null;
         
