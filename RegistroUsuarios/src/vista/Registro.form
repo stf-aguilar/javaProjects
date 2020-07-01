@@ -99,9 +99,6 @@
     <Component class="javax.swing.JTextField" name="cajaNombre">
     </Component>
     <Component class="javax.swing.JPasswordField" name="cajaContrase&#xf1;a">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jPasswordField1"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -109,13 +106,10 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JPasswordField" name="cajaModificarContrase&#xf1;a">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jPasswordField1"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;Modificar contrase&#xf1;a&lt;/html&gt;"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;Confirmar contrase&#xf1;a&lt;/html&gt;"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
