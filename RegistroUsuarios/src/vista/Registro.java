@@ -116,28 +116,47 @@ public class Registro extends javax.swing.JFrame {
           JOptionPane.showMessageDialog(null,"Por favor, rellene todos los campos");
        }else{
            if(contraseña.equals(confirmarContraseña)){
-               String nuevaContraseña = CifrarContraseña.md5(contraseña);
                
-               usuario.setNombreUsuario(cajaNombre.getText());
-               usuario.setContraseña(nuevaContraseña);
-               usuario.setNombre(cajaNombre.getText());
-               usuario.setCorreo(cajaCorreo.getText());
-               usuario.setIdTipo_usuario(1);
-               
-               if(sqlUsuario.RegistrarUsuario(usuario)){
-                   JOptionPane.showMessageDialog(null,"Registro correcto"); 
+               if(sqlUsuario.verificarUsuario(cajaUsuario.getText()) == 0){
+                   
+                   if(sqlUsuario.comprobarEmail(cajaCorreo.getText())){
+                       String nuevaContraseña = CifrarContraseña.md5(contraseña);
+
+                       usuario.setNombreUsuario(cajaNombre.getText());
+                       usuario.setContraseña(nuevaContraseña);
+                       usuario.setNombre(cajaNombre.getText());
+                       usuario.setCorreo(cajaCorreo.getText());
+                       usuario.setIdTipo_usuario(1);
+
+                       if (sqlUsuario.RegistrarUsuario(usuario)) {
+                           JOptionPane.showMessageDialog(null, "Registro correcto");
+                           limpiarCajas();
+                       } else {
+                           JOptionPane.showMessageDialog(null, "Error durante el registro");
+                       }
+                }else {
+                    JOptionPane.showMessageDialog(null, "El correo es inválido");
+                }
                }else{
-                   JOptionPane.showMessageDialog(null,"Error durante el registro"); 
-               }
-           }else{
-               JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
-           }
-       
+                   JOptionPane.showMessageDialog(null, "Ya existe un usuario con ese nombre");
+               }  
+               
+               }else{
+                  JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+           }       
        }
        
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
+    private void limpiarCajas(){
+        cajaUsuario.setText("");
+        cajaContraseña.setText("");
+        cajaModificarContraseña.setText("");
+        cajaNombre.setText("");
+        cajaCorreo.setText("");
+    }
   
+   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
