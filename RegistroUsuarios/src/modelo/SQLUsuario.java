@@ -66,4 +66,39 @@ public class SQLUsuario {
         
         return matcher.find();
     }
+
+     
+    public boolean iniciarSesion(Usuario usuario){
+        Conexion con = new Conexion();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        
+        try{
+            Connection conexion = con.getConnection();         
+            ps = conexion.prepareStatement("select id, nombreUsuario,contraseña, nombre,idTipo_usuario from usuario ewhere nombreUsuario=? ");
+            ps.setString(1,usuario.getNombreUsuario());
+            
+            rs = ps.executeQuery();
+            
+            if(rs.next()){
+                if(usuario.getContraseña().equals(rs.getString("contraseña"))){
+                    usuario.setId(rs.getInt("id"));
+                    usuario.setNombre(rs.getString("nombre"));
+                    usuario.setIdTipo_usuario(rs.getInt("idTipo_usuario"));
+                    
+                    return true;
+                
+                }else{
+                    return false;
+                }
+            }
+            
+            return false;
+            
+        }catch(Exception ex){
+            return false;
+        }
+    }
+
 }

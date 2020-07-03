@@ -122,7 +122,7 @@ public class Registro extends javax.swing.JFrame {
                    if(sqlUsuario.comprobarEmail(cajaCorreo.getText())){
                        String nuevaContraseña = CifrarContraseña.md5(contraseña);
 
-                       usuario.setNombreUsuario(cajaNombre.getText());
+                       usuario.setNombreUsuario(cajaUsuario.getText());
                        usuario.setContraseña(nuevaContraseña);
                        usuario.setNombre(cajaNombre.getText());
                        usuario.setCorreo(cajaCorreo.getText());
