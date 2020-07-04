@@ -76,7 +76,7 @@ public class SQLUsuario {
         
         try{
             Connection conexion = con.getConnection();         
-            ps = conexion.prepareStatement("select id, nombreUsuario,contraseña, nombre,idTipo_usuario from usuario ewhere nombreUsuario=? ");
+            ps = conexion.prepareStatement("select id, nombreUsuario,contraseña, nombre,idTipo_usuario from usuario where nombreUsuario=? ");
             ps.setString(1,usuario.getNombreUsuario());
             
             rs = ps.executeQuery();

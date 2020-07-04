@@ -39,7 +39,12 @@ public class iniciarSesion extends javax.swing.JFrame {
         btnEntrar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel1.setText("Usuario");
@@ -138,7 +143,11 @@ public class iniciarSesion extends javax.swing.JFrame {
            usuario.setContraseña(nuevaContraseña);
            
            if(sqlusuario.iniciarSesion(usuario)){
-               JOptionPane.showMessageDialog(null, "Ingresaste con éxito");
+               Iniciar.iniciarSesion = null;
+               this.dispose();
+               
+               Programa programa = new Programa();
+               programa.setVisible(true);
            }else{
                JOptionPane.showMessageDialog(null, "Datos incorrectos");
            }
@@ -147,6 +156,10 @@ public class iniciarSesion extends javax.swing.JFrame {
        
        
     }//GEN-LAST:event_btnEntrarActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Iniciar.iniciarSesion = null;
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
