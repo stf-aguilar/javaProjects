@@ -76,17 +76,17 @@ public class SQLUsuario {
         
         try{
             Connection conexion = con.getConnection();         
-            ps = conexion.prepareStatement("select id, nombreUsuario,contraseña, nombre,idTipo_usuario from usuario where nombreUsuario=? ");
+            ps = conexion.prepareStatement("select u.id, u.nombreUsuario,u.contraseña, u.nombre,u.idTipo_usuario, t.nombre from usuario as u inner join tipo_usuario as t on u.idTipo_Usuario = t.id where nombreUsuario=? ");
             ps.setString(1,usuario.getNombreUsuario());
             
             rs = ps.executeQuery();
             
             if(rs.next()){
-                if(usuario.getContraseña().equals(rs.getString("contraseña"))){
-                    usuario.setId(rs.getInt("id"));
-                    usuario.setNombre(rs.getString("nombre"));
-                    usuario.setIdTipo_usuario(rs.getInt("idTipo_usuario"));
-                    
+                if(usuario.getContraseña().equals(rs.getString("u.contraseña"))){
+                    usuario.setId(rs.getInt("u.id"));
+                    usuario.setNombre(rs.getString("u.nombre"));
+                    usuario.setIdTipo_usuario(rs.getInt("u.idTipo_usuario"));
+                    usuario.setNombreRol(rs.getString("t.nombre"));
                     return true;
                 
                 }else{

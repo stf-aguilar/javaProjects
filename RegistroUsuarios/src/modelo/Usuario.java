@@ -8,6 +8,7 @@ public class Usuario {
     private String correo;
     private String ultima_sesion;
     private int idTipo_usuario;
+    private String nombreRol;
 
     public int getId() {
         return id;
@@ -63,6 +64,14 @@ public class Usuario {
 
     public void setIdTipo_usuario(int idTipo_usuario) {
         this.idTipo_usuario = idTipo_usuario;
+    }
+
+    public String getNombreRol() {
+        return nombreRol;
+    }
+
+    public void setNombreRol(String nombreRol) {
+        this.nombreRol = nombreRol;
     }
     
     

@@ -146,7 +146,7 @@ public class iniciarSesion extends javax.swing.JFrame {
                Iniciar.iniciarSesion = null;
                this.dispose();
                
-               Programa programa = new Programa();
+               Programa programa = new Programa(usuario);
                programa.setVisible(true);
            }else{
                JOptionPane.showMessageDialog(null, "Datos incorrectos");
